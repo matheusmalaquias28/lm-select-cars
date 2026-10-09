@@ -1,0 +1,213 @@
+@import "tailwindcss";
+
+/*
+ * LM Select Cars: grafite + cromo.
+ * Neutros levemente frios (matiz 255) para conversar com o prata da logo.
+ */
+@theme {
+  --color-ink: oklch(0.145 0.004 255);
+  --color-ink-2: oklch(0.175 0.005 255);
+  --color-ink-3: oklch(0.215 0.006 255);
+  --color-ink-4: oklch(0.27 0.007 255);
+  --color-line: oklch(0.95 0.004 255 / 0.11);
+  --color-line-strong: oklch(0.95 0.004 255 / 0.22);
+  --color-bone: oklch(0.95 0.004 255);
+  --color-bone-2: oklch(0.86 0.005 255);
+  --color-mute: oklch(0.71 0.008 255);
+  --color-faint: oklch(0.56 0.008 255);
+  --color-chrome: oklch(0.83 0.006 255);
+  --color-chrome-hi: oklch(0.97 0.003 255);
+  --color-paper: oklch(0.965 0.003 255);
+
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-saira), ui-sans-serif, system-ui, sans-serif;
+
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-quart: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+
+  --breakpoint-3xl: 120rem;
+}
+
+:root {
+  --gutter: clamp(1rem, 3.4vw, 4.5rem);
+  --header-h: 6rem;
+  color-scheme: dark;
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --header-h: 4.25rem;
+  }
+}
+
+html {
+  background: var(--color-ink);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-bone);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-chrome);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 1px solid var(--color-chrome-hi);
+  outline-offset: 4px;
+}
+
+img {
+  -webkit-user-drag: none;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ---------- utilitários ---------- */
+
+@utility wrap {
+  width: 100%;
+  padding-inline: var(--gutter);
+}
+
+/* Saira no eixo de largura: o mesmo DNA "estendido" do lettering SELECT CARS */
+@utility font-wide {
+  font-family: var(--font-display);
+  font-stretch: 125%;
+}
+
+@utility font-semiwide {
+  font-family: var(--font-display);
+  font-stretch: 112%;
+}
+
+@utility eyebrow {
+  font-family: var(--font-display);
+  font-stretch: 125%;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Linha fina que se desenha da esquerda para a direita no hover */
+@utility hairline-hover {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.6s var(--ease-expo);
+  &:hover,
+  &:focus-visible {
+    background-size: 100% 1px;
+  }
+}
+
+/* ---------- estados iniciais de animação (só com JS e sem reduced-motion) ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    opacity: 0;
+  }
+  .js [data-split] {
+    visibility: hidden;
+  }
+  .js [data-intro] {
+    opacity: 0;
+  }
+}
+
+/* folga na máscara das linhas para não cortar acentos (Ã, É) nem descendentes */
+[class*="split-line"] {
+  padding-top: 0.16em;
+  margin-top: -0.16em;
+  padding-bottom: 0.06em;
+  margin-bottom: -0.06em;
+}
+
+/* Preloader: some de vez se a intro já rodou nesta sessão */
+.intro-seen .preloader {
+  display: none;
+}
+
+/* Logo do header escondida enquanto o preloader "entrega" a dele */
+.js:not(.intro-seen) [data-header-logo] {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Na página do veículo a barra fixa já tem o WhatsApp */
+@media (max-width: 1023px) {
+  body:has([data-sticky-cta]) .wa-float {
+    display: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  body:has([data-sticky-cta]) footer {
+    padding-bottom: 5rem;
+  }
+}
+
+/* Campos de formulário: linha fina e rótulo pequeno */
+@utility field {
+  width: 100%;
+  border-bottom: 1px solid var(--color-line-strong);
+  background: transparent;
+  padding: 0.6rem 0 0.85rem;
+  font-size: 1.0625rem;
+  color: var(--color-bone);
+  border-radius: 0;
+  outline: none;
+  transition: border-color 0.5s var(--ease-expo);
+  &::placeholder {
+    color: var(--color-faint);
+  }
+  &:focus {
+    border-color: var(--color-chrome-hi);
+  }
+}
