@@ -62,6 +62,26 @@ export const Expand = (p: P) => (
     <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />
   </svg>
 );
+export const SoundOn = (p: P) => (
+  <svg {...base(p)}>
+    <path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4zM15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" />
+  </svg>
+);
+export const SoundOff = (p: P) => (
+  <svg {...base(p)}>
+    <path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4zM16 9.5l5 5M21 9.5l-5 5" />
+  </svg>
+);
+export const Play = (p: P) => (
+  <svg {...base(p)}>
+    <path d="M7 4.5v15l12-7.5z" />
+  </svg>
+);
+export const Pause = (p: P) => (
+  <svg {...base(p)}>
+    <path d="M8 5v14M16 5v14" />
+  </svg>
+);
 export const Phone = (p: P) => (
   <svg {...base(p)}>
     <path d="M5 4h4l1.5 4.5L8 10a11 11 0 0 0 6 6l1.5-2.5L20 15v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1Z" />

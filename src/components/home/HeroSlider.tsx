@@ -19,6 +19,10 @@ export type HeroSlide = {
   transmission: string;
   image: { src: string; w: number; h: number };
   cover: string | null;
+  /** Foto vertical própria para celular (abaixo de md) */
+  mobileSrc: string | null;
+  /** Foto própria para tablet/desktop (a partir de md) */
+  desktopSrc: string | null;
   focus: string;
 };
 
@@ -173,18 +177,22 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
           style={{ visibility: i === 0 ? "visible" : "hidden", zIndex: i === 0 ? 1 : 0 }}
           aria-hidden={i !== index}
         >
-          <Image
-            src={s.image.src}
-            alt={`${s.brand} ${s.model} ${s.year}`}
-            fill
-            priority={i === 0}
-            sizes="100vw"
-            quality={90}
-            placeholder={s.cover ? "blur" : "empty"}
-            blurDataURL={s.cover ?? undefined}
-            className="scale-[1.06] object-cover will-change-transform"
-            style={{ objectPosition: s.focus }}
-          />
+          <picture>
+            {s.mobileSrc && <source media="(max-width: 767px)" srcSet={s.mobileSrc} />}
+            {s.desktopSrc && <source media="(min-width: 768px)" srcSet={s.desktopSrc} />}
+            <Image
+              src={s.image.src}
+              alt={`${s.brand} ${s.model} ${s.year}`}
+              fill
+              priority={i === 0}
+              sizes="100vw"
+              quality={90}
+              placeholder={s.cover ? "blur" : "empty"}
+              blurDataURL={s.cover ?? undefined}
+              className="scale-[1.06] object-cover will-change-transform"
+              style={{ objectPosition: s.focus }}
+            />
+          </picture>
         </div>
       ))}
 

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { Gallery } from "@/components/car/Gallery";
+import { StickyBar } from "@/components/car/StickyBar";
 import { CarCard } from "@/components/stock/CarCard";
 import { PageMotion } from "@/components/motion/Motion";
 import { ArrowRight, ArrowUpRight, Body, Bolt, Calendar, Check, Fuel, Gauge, Gear, Palette, Timer, WhatsApp } from "@/components/Icons";
@@ -104,57 +105,60 @@ async function CarContent({ params }: { params: PageProps<"/estoque/[slug]">["pa
       {/* título */}
       <header className="wrap pt-[calc(var(--header-h)+2.5rem)] pb-10 md:pt-[calc(var(--header-h)+4rem)] md:pb-14">
         <nav aria-label="Trilha de navegação" data-reveal="fade">
-          <ol className="eyebrow flex flex-wrap items-center gap-3 text-faint">
-            <li>
+          <ol className="eyebrow flex items-center gap-2 text-[0.5625rem] tracking-[0.16em] whitespace-nowrap text-faint">
+            <li className="shrink-0">
               <Link href="/estoque" className="transition-colors hover:text-bone">
                 Estoque
               </Link>
             </li>
-            <li className="flex items-center gap-3">
-              <span aria-hidden className="h-px w-4 bg-line-strong" />
+            <li className="flex shrink-0 items-center gap-2">
+              <span aria-hidden className="h-px w-2.5 bg-line-strong" />
               <Link href={`/estoque?marca=${car.brandKey}`} className="transition-colors hover:text-bone">
                 {car.brand}
               </Link>
             </li>
-            <li className="flex items-center gap-3">
-              <span aria-hidden className="h-px w-4 bg-line-strong" />
-              <span aria-current="page" className="text-bone-2">
+            <li className="flex min-w-0 items-center gap-2">
+              <span aria-hidden className="h-px w-2.5 shrink-0 bg-line-strong" />
+              <span aria-current="page" className="truncate text-bone-2">
                 {car.model}
               </span>
             </li>
           </ol>
         </nav>
 
-        <div className="mt-10 grid gap-8 lg:grid-cols-12 lg:items-end">
-          <div className="lg:col-span-8">
-            <p data-reveal className="eyebrow text-bone-2">
-              {car.brand} <span className="mx-2 text-faint">/</span> {car.year}
-            </p>
-            <h1 data-split className="mt-5 font-wide text-[clamp(2.3rem,6.4vw,6.75rem)] leading-[0.92] font-light tracking-[-0.03em] uppercase">
-              {car.model}
-            </h1>
-            <p data-reveal className="mt-5 text-lg text-mute md:text-xl">{car.version}</p>
-          </div>
-          <div data-reveal className="lg:col-span-4 lg:text-right">
-            <p className="eyebrow text-faint">Valor</p>
-            <p className="mt-3 font-semiwide text-[clamp(1.9rem,3vw,2.75rem)] leading-none font-light tracking-[-0.01em] tabular">{brl(car.price)}</p>
-            {car.badges.length > 0 && (
-              <ul className="mt-5 flex flex-wrap gap-2 lg:justify-end">
-                {car.badges.map((b) => (
-                  <li key={b} className="eyebrow border border-line-strong px-3 py-1.5 text-[0.625rem] text-bone-2">
-                    {b}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+        <div className="mt-10">
+          <p data-reveal className="eyebrow text-bone-2">
+            {car.brand} <span className="mx-2 text-faint">/</span> {car.year}
+          </p>
+          <h1 data-split className="mt-5 font-wide text-[clamp(2.3rem,6.4vw,6.75rem)] leading-[0.92] font-light tracking-[-0.03em] uppercase">
+            {car.model}
+          </h1>
+          <p data-reveal className="mt-5 text-lg text-mute md:text-xl">{car.version}</p>
         </div>
       </header>
 
-      {/* galeria */}
-      <section aria-label="Fotos" data-reveal="fade">
-        <Gallery photos={car.photos} alt={name} cover={car.cover} />
-      </section>
+      {/* galeria + valor: primeira seção (a barra fixa só aparece depois dela) */}
+      <div id="car-intro">
+        <section aria-label="Fotos" data-reveal="fade">
+          <Gallery photos={car.photos} alt={name} cover={car.cover} />
+        </section>
+
+        <div data-reveal className="wrap mt-10 flex flex-wrap items-end justify-between gap-x-8 gap-y-5 md:mt-12">
+          <div>
+            <p className="eyebrow text-faint">Valor</p>
+            <p className="mt-3 font-semiwide text-[clamp(1.9rem,3vw,2.75rem)] leading-none font-light tracking-[-0.01em] tabular">{brl(car.price)}</p>
+          </div>
+          {car.badges.length > 0 && (
+            <ul className="flex flex-wrap gap-2">
+              {car.badges.map((b) => (
+                <li key={b} className="eyebrow border border-line-strong px-3 py-1.5 text-[0.625rem] text-bone-2">
+                  {b}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
 
       {/* conteúdo */}
       <div className="wrap grid gap-16 py-20 md:py-28 lg:grid-cols-12 lg:gap-0">
@@ -322,7 +326,7 @@ async function CarContent({ params }: { params: PageProps<"/estoque/[slug]">["pa
       )}
 
       {/* barra fixa no celular */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-ink/95 pb-[env(safe-area-inset-bottom)] lg:hidden">
+      <StickyBar after="car-intro">
         <div className="wrap flex h-[4.5rem] items-center justify-between gap-4">
           <div className="min-w-0">
             <p className="truncate text-xs text-mute">{car.title}</p>
@@ -333,7 +337,7 @@ async function CarContent({ params }: { params: PageProps<"/estoque/[slug]">["pa
             <span className="eyebrow">Tenho interesse</span>
           </a>
         </div>
-      </div>
+      </StickyBar>
 
       <PageMotion />
     </article>

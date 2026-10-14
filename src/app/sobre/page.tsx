@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PageMotion } from "@/components/motion/Motion";
 import { PageHero } from "@/components/ui/PageHero";
+import { ShowroomVideo } from "@/components/ui/ShowroomVideo";
 import { ArrowRight } from "@/components/Icons";
 import { site } from "@/lib/site";
 import { brands, cars } from "@/lib/stock";
@@ -31,7 +32,6 @@ const values = [
 ];
 
 export default function SobrePage() {
-  const a = photo("6926385", 8);
   const b = photo("7803588", 0);
   const c = photo("8550171", 1);
 
@@ -50,9 +50,9 @@ export default function SobrePage() {
       />
 
       <section className="wrap grid gap-14 py-20 md:py-28 lg:grid-cols-12">
-        <figure data-reveal="img" className="relative aspect-[3/4] overflow-hidden bg-ink-2 lg:col-span-5">
-          <Image src={a.src} alt="Porsche 911 Carrera Cabriolet no showroom da LM Select Cars" fill sizes="(min-width: 1024px) 40vw, 100vw" quality={85} className="object-cover" />
-        </figure>
+        <div data-reveal="fade" className="lg:col-span-5">
+          <ShowroomVideo className="aspect-[3/4]" />
+        </div>
         <div className="flex flex-col justify-center lg:col-span-6 lg:col-start-7">
           <p data-split className="font-wide text-[clamp(1.5rem,2.8vw,2.6rem)] leading-[1.12] font-light tracking-[-0.015em] uppercase">
             Não vendemos apenas automóveis: entregamos status, distinção e a certeza de um investimento seguro.

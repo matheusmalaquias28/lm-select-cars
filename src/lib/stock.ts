@@ -245,14 +245,14 @@ const byId = (id: string) => cars.find((c) => c.id === id);
 
 /** Slides da hero: carro + foto escolhida a dedo (índice na galeria). */
 export const heroSlides = [
-  { id: "8512374", photo: 1, mobilePhoto: 1, focus: "50% 60%" },
-  { id: "7537789", photo: 0, mobilePhoto: 0, focus: "50% 62%" },
-  { id: "6926385", photo: 7, mobilePhoto: 0, focus: "50% 64%" },
-  { id: "8550171", photo: 1, mobilePhoto: 0, focus: "50% 62%" },
+  { id: "8512374", photo: 1, mobilePhoto: 1, mobileSrc: "/hero/911-gts-mobile.jpg", focus: "50% 60%" },
+  { id: "7537789", photo: 0, mobilePhoto: 0, mobileSrc: "/hero/eqs-53-mobile.jpg", desktopSrc: "/hero/eqs-53-desktop.jpg", focus: "50% 62%" },
+  { id: "6926385", photo: 7, mobilePhoto: 0, mobileSrc: "/hero/911-carrera-cabriolet-mobile.jpg", desktopSrc: "/hero/911-carrera-cabriolet-desktop.jpg", focus: "50% 64%" },
+  { id: "8550171", photo: 1, mobilePhoto: 0, mobileSrc: "/hero/cayenne-coupe-mobile.jpg", desktopSrc: "/hero/cayenne-coupe-desktop.jpg", focus: "50% 62%" },
 ]
   .map((s) => {
     const car = byId(s.id);
-    return car ? { car, image: car.photos[s.photo] ?? car.photos[0], mobile: car.photos[s.mobilePhoto] ?? car.photos[0], focus: s.focus } : null;
+    return car ? { car, image: car.photos[s.photo] ?? car.photos[0], mobile: car.photos[s.mobilePhoto] ?? car.photos[0], mobileSrc: s.mobileSrc ?? null, desktopSrc: s.desktopSrc ?? null, focus: s.focus } : null;
   })
   .filter((s) => s !== null);
 

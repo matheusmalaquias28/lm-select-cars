@@ -5,6 +5,7 @@ import { QuickSearch } from "@/components/home/QuickSearch";
 import { Spotlight } from "@/components/home/Spotlight";
 import { CarCard } from "@/components/stock/CarCard";
 import { SectionHead } from "@/components/ui/SectionHead";
+import { ShowroomVideo } from "@/components/ui/ShowroomVideo";
 import { PageMotion } from "@/components/motion/Motion";
 import { ArrowRight, ArrowUpRight, Clock, Phone, Pin, WhatsApp } from "@/components/Icons";
 import { conditions, site, whatsappLink } from "@/lib/site";
@@ -16,7 +17,7 @@ const photo = (id: string, i: number) => {
 };
 
 export default function Home() {
-  const slides: HeroSlide[] = heroSlides.map(({ car, image, focus }) => ({
+  const slides: HeroSlide[] = heroSlides.map(({ car, image, mobileSrc, desktopSrc, focus }) => ({
     slug: car.slug,
     brand: car.brand,
     model: car.model,
@@ -28,6 +29,8 @@ export default function Home() {
     transmission: car.transmission,
     image,
     cover: image === car.photos[0] ? car.cover : null,
+    mobileSrc,
+    desktopSrc,
     focus,
   }));
 
@@ -86,9 +89,12 @@ export default function Home() {
         </h2>
 
         <div className="mt-16 grid gap-12 lg:mt-24 lg:grid-cols-12 lg:gap-0">
-          <figure data-reveal="img" className="relative aspect-[4/3] overflow-hidden bg-ink-2 lg:col-span-7">
-            <Image src={showroom.src} alt="Showroom da LM Select Cars com um Mercedes-AMG EQS 53" fill sizes="(min-width: 1024px) 58vw, 100vw" quality={85} className="object-cover" />
-          </figure>
+          <div data-reveal="fade" className="grid grid-cols-5 gap-1.5 md:gap-2 lg:col-span-7">
+            <figure className="relative col-span-3 overflow-hidden bg-ink-2">
+              <Image src={showroom.src} alt="Showroom da LM Select Cars com um Mercedes-AMG EQS 53" fill sizes="(min-width: 1024px) 35vw, 60vw" quality={85} className="object-cover" />
+            </figure>
+            <ShowroomVideo className="col-span-2 aspect-[9/16]" />
+          </div>
           <div className="flex flex-col justify-between gap-12 lg:col-span-4 lg:col-start-9">
             <div data-reveal className="space-y-5 leading-relaxed text-bone-2">
               <p>
